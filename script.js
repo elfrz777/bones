@@ -1,26 +1,42 @@
 class BonesApp {
     constructor() {
-        this.bones = [];
+        this.bones = this.getBonesData();
         this.currentBoneIndex = 0;
         this.currentQuizIndex = 0;
+        this.quizBones = [];
         this.initializeApp();
     }
 
-    async initializeApp() {
-        await this.loadBones();
+    getBonesData() {
+        return [
+            { id: 1, english: "Skull", russian: "Череп", description: "Костная структура головы" },
+            { id: 2, english: "Mandible", russian: "Нижняя челюсть", description: "Нижняя челюстная кость" },
+            { id: 3, english: "Clavicle", russian: "Ключица", description: "Кость соединяющая грудину с лопаткой" },
+            { id: 4, english: "Scapula", russian: "Лопатка", description: "Кость плечевого пояса" },
+            { id: 5, english: "Sternum", russian: "Грудина", description: "Центральная кость грудной клетки" },
+            { id: 6, english: "Ribs", russian: "Ребра", description: "Кости грудной клетки" },
+            { id: 7, english: "Humerus", russian: "Плечевая кость", description: "Кость верхней части руки" },
+            { id: 8, english: "Radius", russian: "Лучевая кость", description: "Одна из костей предплечья" },
+            { id: 9, english: "Ulna", russian: "Локтевая кость", description: "Вторая кость предплечья" },
+            { id: 10, english: "Carpals", russian: "Кости запястья", description: "Мелкие кости запястья" },
+            { id: 11, english: "Metacarpals", russian: "Пястные кости", description: "Кости ладони" },
+            { id: 12, english: "Phalanges", russian: "Фаланги", description: "Кости пальцев" },
+            { id: 13, english: "Pelvis", russian: "Таз", description: "Тазовые кости" },
+            { id: 14, english: "Femur", russian: "Бедренная кость", description: "Самая длинная кость тела" },
+            { id: 15, english: "Patella", russian: "Надколенник", description: "Коленная чашечка" },
+            { id: 16, english: "Tibia", russian: "Большеберцовая кость", description: "Основная кость голени" },
+            { id: 17, english: "Fibula", russian: "Малоберцовая кость", description: "Меньшая кость голени" },
+            { id: 18, english: "Tarsals", russian: "Кости предплюсны", description: "Кости задней части стопы" },
+            { id: 19, english: "Metatarsals", russian: "Плюсневые кости", description: "Кости средней части стопы" },
+            { id: 20, english: "Vertebrae", russian: "Позвонки", description: "Кости позвоночника" }
+        ];
+    }
+
+    initializeApp() {
         this.setupEventListeners();
         this.showTab('learn');
         this.displayCurrentBone();
         this.populateBonesTable();
-    }
-
-    async loadBones() {
-        try {
-            const response = await fetch('http://localhost:3001/api/bones');
-            this.bones = await response.json();
-        } catch (error) {
-            console.error('Error loading bones:', error);
-        }
     }
 
     setupEventListeners() {
@@ -65,23 +81,16 @@ class BonesApp {
     }
 
     showTab(tabName) {
-        // Скрыть все вкладки
         document.querySelectorAll('.tab-content').forEach(tab => {
             tab.classList.remove('active');
         });
-
-        // Деактивировать все кнопки
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.classList.remove('active');
         });
 
-        // Показать выбранную вкладку
         document.getElementById(tabName).classList.add('active');
-        
-        // Активировать соответствующую кнопку
         document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
 
-        // Если выбрана викторина, начать новую
         if (tabName === 'quiz') {
             this.startQuiz();
         }
@@ -89,7 +98,6 @@ class BonesApp {
 
     displayCurrentBone() {
         if (this.bones.length === 0) return;
-
         const bone = this.bones[this.currentBoneIndex];
         document.getElementById('bone-name').textContent = bone.english;
         document.getElementById('bone-description').textContent = bone.description;
@@ -99,7 +107,6 @@ class BonesApp {
     populateBonesTable() {
         const tableBody = document.getElementById('bones-table');
         tableBody.innerHTML = '';
-
         this.bones.forEach(bone => {
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -111,20 +118,14 @@ class BonesApp {
         });
     }
 
-    async startQuiz() {
-        try {
-            const response = await fetch('http://localhost:3001/api/quiz');
-            this.quizBones = await response.json();
-            this.currentQuizIndex = 0;
-            this.showQuizQuestion();
-        } catch (error) {
-            console.error('Error starting quiz:', error);
-        }
+    startQuiz() {
+        this.quizBones = [...this.bones].sort(() => Math.random() - 0.5);
+        this.currentQuizIndex = 0;
+        this.showQuizQuestion();
     }
 
     showQuizQuestion() {
         if (!this.quizBones || this.quizBones.length === 0) return;
-
         const bone = this.quizBones[this.currentQuizIndex];
         document.getElementById('quiz-russian').textContent = bone.russian;
         document.getElementById('answer-input').value = '';
@@ -134,40 +135,23 @@ class BonesApp {
         document.getElementById('answer-input').focus();
     }
 
-    async checkAnswer() {
+    checkAnswer() {
         const answer = document.getElementById('answer-input').value.trim();
         if (!answer) return;
-
         const bone = this.quizBones[this.currentQuizIndex];
-
-        try {
-            const response = await fetch('http://localhost:3001/api/check-answer', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    boneId: bone.id,
-                    answer: answer
-                })
-            });
-
-            const result = await response.json();
-            const feedback = document.getElementById('quiz-feedback');
-
-            if (result.isCorrect) {
-                feedback.textContent = '✅ Correct! Well done!';
-                feedback.className = 'correct';
-            } else {
-                feedback.textContent = `❌ Incorrect. The correct answer is: ${result.correctAnswer}`;
-                feedback.className = 'incorrect';
-            }
-
-            document.getElementById('submit-answer').style.display = 'none';
-            document.getElementById('next-question').style.display = 'block';
-        } catch (error) {
-            console.error('Error checking answer:', error);
+        const feedback = document.getElementById('quiz-feedback');
+        const isCorrect = bone.english.toLowerCase() === answer.toLowerCase();
+        
+        if (isCorrect) {
+            feedback.textContent = '✅ Correct! Well done!';
+            feedback.className = 'correct';
+        } else {
+            feedback.textContent = `❌ Incorrect. The correct answer is: ${bone.english}`;
+            feedback.className = 'incorrect';
         }
+
+        document.getElementById('submit-answer').style.display = 'none';
+        document.getElementById('next-question').style.display = 'block';
     }
 
     nextQuizQuestion() {
@@ -176,7 +160,12 @@ class BonesApp {
     }
 }
 
-// Запуск приложения после загрузки страницы
+// Запуск приложения после полной загрузки DOM
 document.addEventListener('DOMContentLoaded', () => {
     new BonesApp();
+});
+
+// Добавляем обработчик для полной загрузки страницы
+window.addEventListener('load', () => {
+    console.log('Page fully loaded');
 });
