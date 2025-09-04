@@ -169,3 +169,17 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('load', () => {
     console.log('Page fully loaded');
 });
+
+initializeApp() {
+    // Показываем первую кость сразу при загрузке
+    if (this.bones.length > 0) {
+        this.displayCurrentBone();
+    }
+    
+    this.setupEventListeners();
+    this.showTab('learn');
+    this.populateBonesTable();
+    
+    // Добавляем класс загрузки
+    document.body.classList.add('loaded');
+}
