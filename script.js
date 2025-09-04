@@ -33,13 +33,17 @@ class BonesApp {
     }
 
     initializeApp() {
+        console.log('Initializing app...');
         this.setupEventListeners();
-        this.showTab('learn');
-        this.displayCurrentBone();
+        this.displayCurrentBone(); // Показываем первую кость сразу
         this.populateBonesTable();
+        this.showTab('learn');
+        console.log('App initialized successfully');
     }
 
     setupEventListeners() {
+        console.log('Setting up event listeners...');
+        
         // Навигация
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -78,27 +82,50 @@ class BonesApp {
                 this.checkAnswer();
             }
         });
+        
+        console.log('Event listeners set up');
     }
 
     showTab(tabName) {
+        console.log('Showing tab:', tabName);
+        
+        // Скрыть все вкладки
         document.querySelectorAll('.tab-content').forEach(tab => {
             tab.classList.remove('active');
         });
+        
+        // Деактивировать все кнопки
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.classList.remove('active');
         });
 
-        document.getElementById(tabName).classList.add('active');
-        document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+        // Показать выбранную вкладку
+        const tabElement = document.getElementById(tabName);
+        if (tabElement) {
+            tabElement.classList.add('active');
+        }
 
+        // Активировать соответствующую кнопку
+        const buttonElement = document.querySelector(`[data-tab="${tabName}"]`);
+        if (buttonElement) {
+            buttonElement.classList.add('active');
+        }
+
+        // Если выбрана викторина, начать новую
         if (tabName === 'quiz') {
             this.startQuiz();
         }
     }
 
     displayCurrentBone() {
-        if (this.bones.length === 0) return;
+        if (this.bones.length === 0) {
+            console.error('No bones data available');
+            return;
+        }
+        
         const bone = this.bones[this.currentBoneIndex];
+        console.log('Displaying bone:', bone.english);
+        
         document.getElementById('bone-name').textContent = bone.english;
         document.getElementById('bone-description').textContent = bone.description;
         document.getElementById('bone-translation').textContent = bone.russian;
@@ -106,6 +133,11 @@ class BonesApp {
 
     populateBonesTable() {
         const tableBody = document.getElementById('bones-table');
+        if (!tableBody) {
+            console.error('Bones table not found');
+            return;
+        }
+        
         tableBody.innerHTML = '';
         this.bones.forEach(bone => {
             const row = document.createElement('tr');
@@ -119,25 +151,39 @@ class BonesApp {
     }
 
     startQuiz() {
+        console.log('Starting quiz...');
         this.quizBones = [...this.bones].sort(() => Math.random() - 0.5);
         this.currentQuizIndex = 0;
         this.showQuizQuestion();
     }
 
     showQuizQuestion() {
-        if (!this.quizBones || this.quizBones.length === 0) return;
+        if (!this.quizBones || this.quizBones.length === 0) {
+            console.error('No quiz questions available');
+            return;
+        }
+        
         const bone = this.quizBones[this.currentQuizIndex];
         document.getElementById('quiz-russian').textContent = bone.russian;
         document.getElementById('answer-input').value = '';
         document.getElementById('quiz-feedback').textContent = '';
         document.getElementById('next-question').style.display = 'none';
         document.getElementById('submit-answer').style.display = 'block';
-        document.getElementById('answer-input').focus();
+        
+        // Фокус на input
+        const answerInput = document.getElementById('answer-input');
+        if (answerInput) {
+            answerInput.focus();
+        }
     }
 
     checkAnswer() {
         const answer = document.getElementById('answer-input').value.trim();
-        if (!answer) return;
+        if (!answer) {
+            alert('Please enter an answer');
+            return;
+        }
+        
         const bone = this.quizBones[this.currentQuizIndex];
         const feedback = document.getElementById('quiz-feedback');
         const isCorrect = bone.english.toLowerCase() === answer.toLowerCase();
@@ -160,26 +206,18 @@ class BonesApp {
     }
 }
 
-// Запуск приложения после полной загрузки DOM
+// Запуск приложения
+console.log('DOM content loaded');
 document.addEventListener('DOMContentLoaded', () => {
-    new BonesApp();
+    console.log('Creating BonesApp instance...');
+    window.bonesApp = new BonesApp();
 });
 
-// Добавляем обработчик для полной загрузки страницы
-window.addEventListener('load', () => {
-    console.log('Page fully loaded');
-});
-
-initializeApp() {
-    // Показываем первую кость сразу при загрузке
-    if (this.bones.length > 0) {
-        this.displayCurrentBone();
-    }
-    
-    this.setupEventListeners();
-    this.showTab('learn');
-    this.populateBonesTable();
-    
-    // Добавляем класс загрузки
-    document.body.classList.add('loaded');
+// Резервный запуск на случай если DOM уже загружен
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        window.bonesApp = new BonesApp();
+    });
+} else {
+    window.bonesApp = new BonesApp();
 }
