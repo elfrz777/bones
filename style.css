@@ -3,30 +3,6 @@
     padding: 0;
     box-sizing: border-box;
 }
-/* Индикатор загрузки */
-body:not(.loaded)::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-body:not(.loaded)::after {
-    content: 'Loading...';
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 1.5em;
-    z-index: 1001;
 }
 body {
     font-family: 'Arial', sans-serif;
@@ -315,4 +291,5 @@ tr:hover {
     }
 }
 }
+
 
