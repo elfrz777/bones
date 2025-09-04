@@ -1,0 +1,231 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+header {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.nav-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.nav-btn.active {
+    background: #e74c3c;
+}
+
+.tab-content {
+    display: none;
+    padding: 30px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.learning-area {
+    text-align: center;
+}
+
+.bone-card {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.bone-card h3 {
+    font-size: 2em;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.bone-card p {
+    font-size: 1.1em;
+    color: #7f8c8d;
+    margin-bottom: 15px;
+}
+
+.translation {
+    font-size: 1.3em;
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.controls button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background: #3498db;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.controls button:hover {
+    background: #2980b9;
+}
+
+.quiz-area {
+    text-align: center;
+}
+
+.question {
+    margin-bottom: 20px;
+}
+
+.question h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+#quiz-russian {
+    font-size: 1.5em;
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+#answer-input {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
+    border: 2px solid #bdc3c7;
+    border-radius: 5px;
+    font-size: 1.1em;
+    margin-bottom: 15px;
+}
+
+#submit-answer, #next-question {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    background: #27ae60;
+    color: white;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background 0.3s ease;
+}
+
+#submit-answer:hover, #next-question:hover {
+    background: #219a52;
+}
+
+#quiz-feedback {
+    margin-top: 20px;
+    font-size: 1.2em;
+    min-height: 30px;
+}
+
+.correct {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.incorrect {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.bones-list h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background: #34495e;
+    color: white;
+}
+
+tr:hover {
+    background: #f5f5f5;
+}
+
+@media (max-width: 600px) {
+    .container {
+        margin: 10px;
+        border-radius: 10px;
+    }
+    
+    header h1 {
+        font-size: 1.5em;
+    }
+    
+    .nav-btn {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+    
+    .bone-card h3 {
+        font-size: 1.5em;
+    }
+    
+    .controls {
+        flex-direction: column;
+    }
+    
+    table {
+        font-size: 0.9em;
+    }
+}

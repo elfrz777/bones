@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Bones - English Names</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 Learn Bones in English</h1>
+            <nav>
+                <button class="nav-btn active" data-tab="learn">Learn</button>
+                <button class="nav-btn" data-tab="quiz">Quiz</button>
+                <button class="nav-btn" data-tab="list">All Bones</button>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Learn Section -->
+            <section id="learn" class="tab-content active">
+                <div class="learning-area">
+                    <div class="bone-card">
+                        <h3 id="bone-name">Select a bone to start</h3>
+                        <p id="bone-description"></p>
+                        <div class="translation" id="bone-translation"></div>
+                    </div>
+                    <div class="controls">
+                        <button id="prev-btn">Previous</button>
+                        <button id="next-btn">Next</button>
+                        <button id="random-btn">Random</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz Section -->
+            <section id="quiz" class="tab-content">
+                <div class="quiz-area">
+                    <div class="question">
+                        <h3>What is the English name for this bone?</h3>
+                        <p id="quiz-russian"></p>
+                    </div>
+                    <input type="text" id="answer-input" placeholder="Type English name...">
+                    <button id="submit-answer">Check Answer</button>
+                    <div id="quiz-feedback"></div>
+                    <button id="next-question" style="display: none;">Next Question</button>
+                </div>
+            </section>
+
+            <!-- List Section -->
+            <section id="list" class="tab-content">
+                <div class="bones-list">
+                    <h3>All Bones</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>English</th>
+                                <th>Russian</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bones-table">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
