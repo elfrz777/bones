@@ -228,4 +228,66 @@ tr:hover {
     table {
         font-size: 0.9em;
     }
+/* Мобильные исправления */
+@media (max-width: 480px) {
+    .container {
+        margin: 5px;
+        border-radius: 8px;
+    }
+    
+    header {
+        padding: 15px;
+    }
+    
+    header h1 {
+        font-size: 1.3em;
+        margin-bottom: 15px;
+    }
+    
+    .nav-btn {
+        padding: 8px 12px;
+        font-size: 0.8em;
+    }
+    
+    .tab-content {
+        padding: 15px;
+    }
+    
+    .bone-card {
+        padding: 20px;
+    }
+    
+    .bone-card h3 {
+        font-size: 1.5em;
+    }
+    
+    .controls {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .controls button {
+        width: 100%;
+    }
+    
+    #answer-input {
+        font-size: 1em;
+        padding: 10px;
+    }
+    
+    table {
+        font-size: 0.8em;
+    }
+    
+    th, td {
+        padding: 8px 5px;
+    }
+}
+
+/* Исправление для Safari на iOS */
+@supports (-webkit-touch-callout: none) {
+    .bone-card {
+        padding: 25px 20px;
+    }
+}
 }
